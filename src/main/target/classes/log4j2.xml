@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+
+    <Appenders>
+
+        <!-- Console Appender -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+
+        <!-- Rolling File Appender A-->
+        <!--RollingFile name="file"
+                     fileName="${sys:mule.home}${sys:file.separator}logs${sys:file.separator}simple-springbean-example.log"
+                     filePattern="${sys:mule.home}${sys:file.separator}logs${sys:file.separator}simple-springbean-example-%i.log" -->
+
+        <RollingFile name="RollingFileMain">
+            <FileName>log/Mainlog.log</FileName>
+            <FilePattern>log/time-based-logs/%d{yyyy-MM-dd-hh-mm}.log.zip</FilePattern>
+            <PatternLayout>
+                <Pattern>%d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %logger{36} - %msg%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <!--TimeBasedTriggeringPolicy interval="2" modulate="true" /-->
+                <SizeBasedTriggeringPolicy size="10 KB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5"/>
+        </RollingFile>
+
+        <RollingFile name="RollingFileA">
+            <FileName>log/Alog.log</FileName>
+            <FilePattern>log/time-based-logs/%d{yyyy-MM-dd-hh-mm}.log.zip</FilePattern>
+            <PatternLayout>
+                <Pattern>%d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %logger{36} - %msg%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <!--TimeBasedTriggeringPolicy interval="2" modulate="true" /-->
+                <SizeBasedTriggeringPolicy size="10 KB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5"/>
+        </RollingFile>
+
+        <!-- Rolling File Appender B-->
+        <RollingFile name="RollingFileB">
+            <FileName>log/Blog.log</FileName>
+            <FilePattern>log/time-based-logs/%d{yyyy-MM-dd-hh-mm}.log.zip</FilePattern>
+            <PatternLayout>
+                <Pattern>%d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %logger{36} - %msg%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <!--TimeBasedTriggeringPolicy interval="2" modulate="true" /-->
+                <SizeBasedTriggeringPolicy size="10 KB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5"/>
+        </RollingFile>
+
+    </Appenders>
+
+    <!--- Loggers: -->
+    <Loggers>
+
+        <AsyncLogger name="rohit.A" level="info" additivity="false">
+            <AppenderRef ref="RollingFileA"/>
+            <AppenderRef ref="Console"/>
+        </AsyncLogger>
+
+        <AsyncLogger name="rohit.B" level="info" additivity="false">
+            <AppenderRef ref="RollingFileB"/>
+            <AppenderRef ref="Console"/>
+        </AsyncLogger>
+
+        <AsyncRoot level="trace">
+            <AppenderRef ref="RollingFileMain"/>
+        </AsyncRoot>
+
+    </Loggers>
+
+</Configuration>

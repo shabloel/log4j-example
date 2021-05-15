@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+
+        <!-- Console Appender -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %logger{36} - %msg%n" />
+        </Console>
+
+        <!-- Rolling File Appender -->
+<!--
+        <RollingFile name="RollingFileA">
+            <FileName>C:/log/Alog.log</FileName>
+            <FilePattern>C:/log/time-based-logs/%d{yyyy-MM-dd-hh-mm}.log.zip</FilePattern>
+            <PatternLayout>
+                <Pattern>%d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %logger{36} - %msg%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="2" modulate="true" />
+                <SizeBasedTriggeringPolicy size="10 KB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5" />
+        </RollingFile>
+
+        &lt;!&ndash; Rolling File Appender &ndash;&gt;
+        <RollingFile name="RollingFileB">
+            <FileName>C:/log/Blog.log</FileName>
+            <FilePattern>C:/log/time-based-logs/%d{yyyy-MM-dd-hh-mm}.log.zip</FilePattern>
+            <PatternLayout>
+                <Pattern>%d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %logger{36} - %msg%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="2" modulate="true" />
+                <SizeBasedTriggeringPolicy size="10 KB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5" />
+        </RollingFile>
+-->
+
+        <RollingFile
+                name="rollfile"
+                fileName="log/thelog.log"
+                filePattern="log/time-based-log/thelog.%d{yyyyMMdd-HHmm}.%i.log" >
+            <PatternLayout pattern="%5p %d{ISO8601} [%t][%x] %c - %m%n" />
+            <Policies>
+                <!--<TimeBasedTriggeringPolicy />-->
+                <SizeBasedTriggeringPolicy size="500 kB" />
+            </Policies>
+            <DefaultRolloverStrategy >
+                <Delete basePath="log/" maxDepth="2">
+<!--                    <IfLastModified age="1m" />-->
+                    <IfAccumulatedFileCount exceeds="10" />
+                </Delete>
+            </DefaultRolloverStrategy>
+
+        </RollingFile>
+
+    </Appenders>
+
+    <Loggers>
+<!--
+        <Logger name="rohit.A" level="info" additivity="false">
+            <AppenderRef ref="RollingFileA" />
+            <AppenderRef ref="Console" />
+        </Logger>
+        <Logger name="rohit.B" level="info" additivity="false">
+            <AppenderRef ref="RollingFileB" />
+            <AppenderRef ref="Console" />
+        </Logger>
+-->
+        <Root level="trace">
+            <AppenderRef ref="rollfile" />
+            <AppenderRef ref="Console" />
+        </Root>
+    </Loggers>
+
+</Configuration>
